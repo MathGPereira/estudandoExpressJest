@@ -2,55 +2,55 @@ import { createHash, randomBytes, scryptSync, timingSafeEqual } from 'crypto';
 
 class PasswordCriptography {
 
-	verifyPassword(senha) {
-		const primeiraRodada = this.#encrypt64(senha, 10);
-		const segundaRodada = this.#cipherCaesar(primeiraRodada, 10, 10);
-		const terceiraRodada = this.#hash(segundaRodada);
-		const testeHash = scryptSync(terceiraRodada, this.bd[0].sal, 128);
-		const hashReal = Buffer.from(this.bd[0].hash, 'hex');
-		const correspondencia = timingSafeEqual(testeHash, hashReal);
-		console.log(correspondencia);
+	verifyPassword(password) {
+		const firstRound = this.#encrypt64(password, 10);
+		const secondRound = this.#cipherCaesar(firstRound, 10, 10);
+		const thirdRound = this.#hash(secondRound);
+		const testHash = scryptSync(thirdRound, this.bd[0].sal, 128);
+		const realHash = Buffer.from(this.bd[0].hash, 'hex');
+		const correspondence = timingSafeEqual(testHash, realHash);
+		console.log(correspondence);
 	}
 
-	encrypt(senha) {
-		const primeiraRodada = this.#encrypt64(senha, 10);
-		const segundaRodada = this.#cipherCaesar(primeiraRodada, 10, 10);
-		const terceiraRodada = this.#hash(segundaRodada);
-		const quartaRodada = this.#hashWithSalt(terceiraRodada);
+	encrypt(password) {
+		const firstRound = this.#encrypt64(password, 10);
+		const secondRound = this.#cipherCaesar(firstRound, 10, 10);
+		const thirdRound = this.#hash(secondRound);
+		const quartaRodada = this.#hashWithSalt(thirdRound);
 
 		return quartaRodada;
 	}
 
-	#encrypt64(senha, rodadas) {
-		for(let i = 0; i < rodadas; i++) {
-			senha = btoa(senha);
+	#encrypt64(password, rounds) {
+		for(let i = 0; i < rounds; i++) {
+			password = btoa(password);
 		}
 
-		return senha;
+		return password;
 	}
 
-	#cipherCaesar(senha, movimentos, rodadas) {
-		let senhaCifrada;
+	#cipherCaesar(password, moves, rounds) {
+		let passwordCifrada;
 
-		for(let i = 0; i < rodadas; i++) {
-			senhaCifrada = senha.split('').map(char => {
-				const codigo = char.charCodeAt(0);
-				return String.fromCharCode(codigo + movimentos);
+		for(let i = 0; i < rounds; i++) {
+			passwordCifrada = password.split('').map(char => {
+				const codes = char.charCodeAt(0);
+				return String.fromCharCode(codes + moves);
 			});
 
-			senha = senhaCifrada.join('');
+			password = passwordCifrada.join('');
 		}
 
-		return senha;
+		return password;
 	}
 
-	#hash(senha) {
-		return createHash('sha512').update(senha).digest('hex');
+	#hash(password) {
+		return createHash('sha512').update(password).digest('hex');
 	}
 
-	#hashWithSalt(senha) {
+	#hashWithSalt(password) {
 		const salt = randomBytes(128).toString('hex');
-		const hash = scryptSync(senha, salt, 128).toString('hex');
+		const hash = scryptSync(password, salt, 128).toString('hex');
 
 		return { salt: salt, hash: hash };
 	}

@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "api": "nodemon ./server.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
-    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --watchAll",
-    "test:coverage": "node --coverage --experimental-vm-modules node_modules/jest/bin/jest.js "
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --randomize",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --watchAll --randomize",
+    "test:coverage": "node --coverage --experimental-vm-modules node_modules/jest/bin/jest.js --randomize"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,5 @@
 import clients from '../models/clients.model.js';
-import NotFoundError from '../errors/Not-found.error.js';
+import NotFoundError from '../errors/not-found.error.js';
 import PasswordCryptography from '../cryptography/password.cryptography.js';
 
 class ClientController {
@@ -19,9 +19,8 @@ class ClientController {
 	}
 
 	static listCustomerById = async (req, res, next) => {
-		const { id } = req.params;
-
 		try {
+			const { id } = req.params;
 			const customer = await clients.findById(id);
 
 			if(customer) {
@@ -51,11 +50,10 @@ class ClientController {
 	}
 
 	static updateCustomer = async (req, res, next) => {
-		const { id } = req.params;
-
 		try {
-			await clients.findByIdAndUpdate(id, req.body, { new: true });
+			const { id } = req.params;
 
+			await clients.findByIdAndUpdate(id, req.body, { new: true });
 			res.status(200).json({ message: 'Successfully updated customer!' });
 		}catch(error) {
 			next(error);
@@ -63,11 +61,10 @@ class ClientController {
 	}
 
 	static deleteCustomer = async (req, res, next) => {
-		const { id } = req.params;
-
 		try {
+			const { id } = req.params;
+			
 			await clients.findByIdAndDelete(id);
-
 			res.status(200).json({ message: 'Successfully deleted customer!' });
 		}catch(error) {
 			next(error);

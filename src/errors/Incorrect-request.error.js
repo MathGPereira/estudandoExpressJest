@@ -1,4 +1,4 @@
-import BaseError from './Base.error.js';
+import BaseError from './base.error.js';
 
 class IncorrectRequestError extends BaseError {
 

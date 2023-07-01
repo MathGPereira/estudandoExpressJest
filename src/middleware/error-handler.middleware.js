@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import BaseError from '../errors/Base.error.js';
-import IncorrectRequestError from '../errors/Incorrect-request.error.js';
-import ValidationError from '../errors/Validation.error.js';
-import NotFoundError from '../errors/Not-found.error.js';
+import BaseError from '../errors/base.error.js';
+import IncorrectRequestError from '../errors/incorrect-request.error.js';
+import ValidationError from '../errors/validation.error.js';
+import NotFoundError from '../errors/not-found.error.js';
 
 function errorHandlerMiddleware(error, req, res, next) {
 	if(error instanceof mongoose.Error.CastError) {

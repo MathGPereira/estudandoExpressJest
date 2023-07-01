@@ -1,4 +1,4 @@
-import { describe, beforeEach, it, jest } from '@jest/globals';
+import { describe, beforeEach, it } from '@jest/globals';
 import PasswordCryptography from '../../cryptography/password.cryptography.js';
 
 describe(PasswordCryptography.name, () => {
@@ -28,12 +28,4 @@ describe(PasswordCryptography.name, () => {
 		expect(infroCryptoKeys).toContain('salt');
 		expect(infroCryptoKeys).toContain('hash');
 	});
-
-	it(`#${PasswordCryptography.prototype.encrypt.name} should call all encryption methods of the class`, () =>{
-		const spy = jest.spyOn(PasswordCryptography, 'encrypt');
-		const infoCrypto = spy.encrypt(anyPassword);
-
-		expect(spy).toHaveBeenCalled();
-		expect(typeof infoCrypto).toBe('object');
-	})
 });
