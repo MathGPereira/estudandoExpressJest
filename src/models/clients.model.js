@@ -1,43 +1,79 @@
 import mongoose from 'mongoose';
+import ClientController from '../controllers/client.controller.js';
+import ClientValidator from '../validators/client.validator.js'
 
 const clientSchema = mongoose.Schema(
 	{
 		id: { type: String },
 		name: {
 			type: String,
-			required: [true, 'Customer name is required!']
+			required: [true, 'Customer name is required!'],
+			minlength: [3, 'Customer name must be no less than 3 digits!'],
+			maxlength: [15, 'Customer name must not exceed 15 digits!'],
+			trim: true
 		},
 		surname: {
 			type: String,
-			required: [true, 'Customer surname is required!']
+			required: [true, 'Customer surname is required!'],
+			minlength: [3, 'Customer surname must be no less than 3 digits!'],
+			maxlength: [15, 'Customer surname must not exceed 15 digits!'],
+			trim: true
 		},
 		rg: {
 			type: String,
 			required: [true, 'Customer RG is required!'],
-			unique: true,
+			trim: true,
+			validate: {
+				validator: async value => {
+					const regex = /\d{9}/;
+					const isValidRegex = ClientValidator.regexValidator(regex, value);
+					const isValidField = await ClientValidator.fieldValidator(value);
+
+					return isValidField && isValidRegex;
+				},
+				message: 'The customer RG is invalid or already registered!'
+			}
 		},
 		password: {
 			type: String,
 			required: [true, 'Customer password is required!'],
-			min: [14, 'Customer password must be at least 14 characters long'],
-			max: [25, 'Customer password must be a maximum of 25 characters'],
+			minlength: [15, 'Customer password must be at least 14 characters long'],
+			maxlength: [256, 'Customer password must be a maximum of 256 characters'],
+			trim: true
 		},
 		email: {
 			type: String,
 			required: [true, 'Customer e-mail is required!'],
 			unique: true,
+			trim: true,
 			validate: {
-				validator: (value) => {
+				validator: async value => {
 					const regex = /^\w+@\w+?\.[a-zA-Z]{2,3}$/;
-					return regex.test(value);
+					const isValidRegex = ClientValidator.regexValidator(regex, value);
+					const isValidField = await ClientValidator.fieldValidator(value);
+
+					return isValidField && isValidRegex;
+
 				},
-				message: 'The customer email is invalid!'
+				message: 'The customer email is invalid or already registered!'
 			}
 		},
 		cpf: {
 			type: String,
 			required: [true, 'Customer CPF is required!'],
 			unique: true,
+			trim: true,
+			validate: {
+				validator: async value => {
+					const regex = /\d{11}/;
+					const isValidRegex = ClientValidator.regexValidator(regex, value);
+					const isValidField = await ClientValidator.fieldValidator(value);
+
+					return isValidField && isValidRegex;
+
+				},
+				message: 'The customer CPF is invalid or already registered!'
+			}
 		},
 		addressId: {
 			type: mongoose.Schema.Types.ObjectId,

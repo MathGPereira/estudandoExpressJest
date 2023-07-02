@@ -48,6 +48,11 @@ class ClientController {
 			await client.save();
 			res.status(201).json({ message: 'Successfully registered customer!' });
 		}catch(error) {
+			// if(error.code === 11000) {
+			// 	// res.send(error)
+			// 	res.status(400).json({ message: `${Object.keys(error.keyPattern)} must be unique!` })
+			// }
+
 			next(error);
 		}
 	}
