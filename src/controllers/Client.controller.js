@@ -10,7 +10,10 @@ class ClientController {
 
 	static listCustomers = async (req, res, next) => {
 		try {
-			const listCustomers = await clients.find();
+			const listCustomers = await clients.find().select({ 
+				password: 0, 
+				salt: 0 
+			});
 
 			res.status(200).json(listCustomers);
 		}catch(error) {
@@ -41,7 +44,7 @@ class ClientController {
 	
 			client.password = encryptedPassword.hash;
 			client.salt = encryptedPassword.salt;
-			
+
 			await client.save();
 			res.status(201).json({ message: 'Successfully registered customer!' });
 		}catch(error) {
