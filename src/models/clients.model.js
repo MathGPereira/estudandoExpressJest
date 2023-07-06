@@ -19,26 +19,11 @@ const clientSchema = mongoose.Schema(
 			maxlength: [15, 'Customer surname must not exceed 15 digits!'],
 			trim: true
 		},
-		rg: {
-			type: String,
-			required: [true, 'Customer RG is required!'],
-			trim: true,
-			validate: {
-				validator: async value => {
-					const regex = /\d{9}/;
-					const isValidRegex = ClientValidator.regexValidator(regex, value);
-					const isValidField = await ClientValidator.fieldValidator(value);
-
-					return isValidField && isValidRegex;
-				},
-				message: 'The customer RG is invalid or already registered!'
-			}
-		},
 		password: {
 			type: String,
 			required: [true, 'Customer password is required!'],
-			minlength: [15, 'Customer password must be at least 14 characters long'],
-			maxlength: [256, 'Customer password must be a maximum of 256 characters'],
+			minlength: [256, 'Customer password must be at least 256 characters!'],
+			maxlength: [256, 'Customer password must be a maximum of 256 characters!'],
 			trim: true
 		},
 		email: {
@@ -50,7 +35,7 @@ const clientSchema = mongoose.Schema(
 				validator: async value => {
 					const regex = /^\w+@\w+?\.[a-zA-Z]{2,3}$/;
 					const isValidRegex = ClientValidator.regexValidator(regex, value);
-					const isValidField = await ClientValidator.fieldValidator(value);
+					const isValidField = await ClientValidator.fieldValidator(value, 'email');
 
 					return isValidField && isValidRegex;
 
@@ -67,9 +52,10 @@ const clientSchema = mongoose.Schema(
 				validator: async value => {
 					const regex = /\d{11}/;
 					const isValidRegex = ClientValidator.regexValidator(regex, value);
-					const isValidField = await ClientValidator.fieldValidator(value);
-
-					return isValidField && isValidRegex;
+					const isValidField = await ClientValidator.fieldValidator(value, 'cpf');
+					const isValidCpf = ClientValidator.validateCpf(value);
+					
+					return isValidField && isValidRegex && isValidCpf;
 
 				},
 				message: 'The customer CPF is invalid or already registered!'
@@ -96,7 +82,9 @@ const clientSchema = mongoose.Schema(
 			}
 		},
 		salt: {
-			type: String
+			type: String,
+			minlength: [256, 'The salt must be at least 256 characters'],
+			maxlength: [256, 'The salt must be a maximum 256 characters!']
 		},
 		createdAt: {
 			type: Date,
@@ -112,3 +100,14 @@ const clientSchema = mongoose.Schema(
 const clients = mongoose.model('clients', clientSchema);
 
 export default clients;
+
+
+// validate: {
+// 				validator: async value => {
+// 					const regex = /(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+// 					const isValidRegex = ClientValidator.regexValidator(regex, value);
+					
+// 					return isValidRegex;
+// 				},
+// 				message: 'The customer password is invalid or already registered!'
+// 			}

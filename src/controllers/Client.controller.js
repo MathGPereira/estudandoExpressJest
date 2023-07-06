@@ -1,4 +1,4 @@
-import clients from '../models/clients.model.js';
+import { clients } from '../models/index.js';
 import NotFoundError from '../errors/not-found.error.js';
 import PasswordCryptography from '../cryptography/password.cryptography.js';
 
@@ -41,18 +41,13 @@ class ClientController {
 			const { password: clientPassword } = req.body;
 			const client = new clients(req.body);
 			const encryptedPassword = new PasswordCryptography().encrypt(clientPassword);
-	
+
 			client.password = encryptedPassword.hash;
 			client.salt = encryptedPassword.salt;
 
 			await client.save();
 			res.status(201).json({ message: 'Successfully registered customer!' });
 		}catch(error) {
-			// if(error.code === 11000) {
-			// 	// res.send(error)
-			// 	res.status(400).json({ message: `${Object.keys(error.keyPattern)} must be unique!` })
-			// }
-
 			next(error);
 		}
 	}
