@@ -6,5 +6,6 @@ const router = express.Router();
 router
 	.get('/clients', ClientsController.listCustomers)
 	.post('/clients', ClientsController.createCustomer)
+	.put('/clients', ClientsController.updateCustomer)
 
 export default router;

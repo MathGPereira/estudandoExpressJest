@@ -34,6 +34,25 @@ class ClientsController {
 
 			res.status(201).json({ message: 'Successfully registered customer!' });
 		}catch(error) {
+			if(error.code === 11000) {
+				res.status(500).json({ message: 'There are one or more fields already registered in the system!' });
+			}else {
+				next(error)
+			}
+		}
+	}
+
+	static async updateCustomer(req, res, next) {
+		try {
+			const { cpf, email } = req.headers;
+
+			if(cpf) {
+				await clients.findOneAndUpdate({ cpf: cpf }, req.body, { new: true });
+			}else if(email) {
+				await clients.findOneAndUpdate({ email: email }, req.body, { new: true });
+			}
+			res.status(200).json({ message: 'Client updated successfully!' });
+		}catch(error) {
 			next(error)
 		}
 	}

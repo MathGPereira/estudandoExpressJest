@@ -5,7 +5,7 @@ class ValidationError extends RequestError {
 	constructor(error) {
 		const errorMessage = Object.values(error.errors)
 			.map(error => error.message)
-			.join('!; ')
+			.join('; ')
 		;
 
 		super(`The following error was found: ${errorMessage}`);
