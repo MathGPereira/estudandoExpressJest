@@ -7,5 +7,6 @@ router
 	.get('/clients', ClientsController.listCustomers)
 	.post('/clients', ClientsController.createCustomer)
 	.put('/clients', ClientsController.updateCustomer)
+	.delete('/clients', ClientsController.deleteCustomer)
 
 export default router;

@@ -51,7 +51,22 @@ class ClientsController {
 			}else if(email) {
 				await clients.findOneAndUpdate({ email: email }, req.body, { new: true });
 			}
-			res.status(200).json({ message: 'Client updated successfully!' });
+			res.status(200).json({ message: 'Successfully updated customer!' });
+		}catch(error) {
+			next(error)
+		}
+	}
+
+	static async deleteCustomer(req, res, next) {
+		try {
+			const { cpf, email } = req.headers;
+
+			if(cpf) {
+				await clients.findOneAndDelete({ cpf: cpf });
+			}else if(email) {
+				await clients.findOneAndDelete({ email: email });
+			}
+			res.status(200).json({ message: 'Successfully updated customer!' });
 		}catch(error) {
 			next(error)
 		}
