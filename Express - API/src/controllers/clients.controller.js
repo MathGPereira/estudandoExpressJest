@@ -34,11 +34,7 @@ class ClientsController {
 
 			res.status(201).json({ message: 'Successfully registered customer!' });
 		}catch(error) {
-			if(error.code === 11000) {
-				res.status(500).json({ message: 'There are one or more fields already registered in the system!' });
-			}else {
-				next(error)
-			}
+			next(error);
 		}
 	}
 

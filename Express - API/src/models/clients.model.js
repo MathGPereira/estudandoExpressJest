@@ -14,9 +14,9 @@ const clientsSchema = mongoose.Schema(
 			validate: {
 				validator: value => {
 					const regex = /[!@#$$%&*()<>|\/\\?;.]/gm;
-					const isValidRegex = ClientsValidator.regexValidator(regex, value);
+					const isItValidRegex = ClientsValidator.regexValidator(regex, value);
 
-					return !isValidRegex;
+					return !isItValidRegex;
 				},
 				message: 'The name cannot have special characters!'
 			}
@@ -29,9 +29,9 @@ const clientsSchema = mongoose.Schema(
 			validate: {
 				validator: value => {
 					const regex = /[!@#$$%&*()<>|\/\\?;.]/gm;
-					const isValidRegex = ClientsValidator.regexValidator(regex, value);
+					const isItValidRegex = ClientsValidator.regexValidator(regex, value);
 
-					return !isValidRegex;
+					return !isItValidRegex;
 				},
 				message: 'The surname cannot have special characters'
 			}
@@ -49,16 +49,25 @@ const clientsSchema = mongoose.Schema(
 			minlength: [8, 'The email field must have at least 8 characters!'],
 			trim: true,
 			unique: true,
-			validate: {
-				validator: async value => {
-					const regex = /^\w+@\w+?\.[a-zA-Z]{2,3}$/gm;
-					const isItValidRegex = ClientsValidator.regexValidator(regex, value);
-					const isItUniqueField = await ClientsValidator.validateUniqueness('email', 'clients');
+			validate: [
+				{
+					validator: async value => {
+						const isItUniqueField = await ClientsValidator.validateUniqueness('email', value, 'clients');
 
-					return isItValidRegex && isItUniqueField;
+						return isItUniqueField;
+					},
+					message: 'The {PATH} {VALUE} is already registered!'
 				},
-				message: 'The customer email is invalid or already registered!'
-			}
+				{
+					validator: value => {
+						const regex = /^\w+@\w+?\.[a-zA-Z]{2,3}$/gm;
+						const isItValidRegex = ClientsValidator.regexValidator(regex, value);
+
+						return isItValidRegex;
+					},
+					message: 'The {PATH} {VALUE} is invalid!'
+				}
+			]
 		},
 		cpf: {
 			type: String,
@@ -67,17 +76,26 @@ const clientsSchema = mongoose.Schema(
 			maxlength: [11, 'The CPF field must have a maximum of 11 characters!'],
 			trim: true,
 			unique: true,
-			validate: {
-				validator: async value => {
-					const regex = /\d{11}/gm;
-					const isItValidRegex = ClientsValidator.regexValidator(regex, value);
-					const isItValidCpf = ClientsValidator.validateCpf(value);
-					const isItUniqueField = await ClientsValidator.validateUniqueness('cpf', 'clients');
+			validate: [
+				{
+					validator: value => {
+						const regex = /\d{11}/gm;
+						const isItValidRegex = ClientsValidator.regexValidator(regex, value);
+						const isItValidCpf = ClientsValidator.validateCpf(value);
 
-					return isItValidCpf && isItUniqueField && isItValidRegex;
+						return isItValidCpf && isItValidRegex;
+					},
+					message: `The {PATH} {VALUE} is invalid!`
 				},
-				message: 'The customer CPF is invalid or already registered!'
-			}
+				{
+					validator: async value => {
+						const isItUniqueField = await ClientsValidator.validateUniqueness('cpf', value, 'clients');
+
+						return isItUniqueField;
+					},
+					message: `The {PATH} {VALUE} is already registered!`
+				}
+			]
 		},
 		addressId: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -106,7 +124,7 @@ const clientsSchema = mongoose.Schema(
 		},
 		createdAt: {
 			type: Date,
-			default: new Date()
+			default: new Date
 		},
 		updateAt: {
 			type: Date,

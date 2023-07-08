@@ -66,5 +66,9 @@ const addressesSchema = mongoose.Schema(
 			type: Date,
 			default: new Date()
 		}
-	}
+	},
+	{ versionKey: false }
 );
+const addresses = mongoose.model('addresses', addressesSchema);
+
+export default addresses;

@@ -14,19 +14,23 @@ class Validator {
 		return isItValid;
 	}
 
-	static async validateUniqueness(fieldValue, schema) {
+	static async validateUniqueness(field, fieldValue, schema) {
 		const list = await Validator.#verifySchema(schema);
-		const isItUniqueField =  Validator.#validateField(fieldValue, list)[0];
+		const isItUniqueField =  Validator.#validateField(field, fieldValue, list)
+			.find(boolean => boolean === false)
+		;
 
-		return isItUniqueField;
+		// console.log(isItUniqueField)
+
+		return isItUniqueField === undefined ? true: false;
 	}
 
-	static #validateField(fieldValue, list) {
+	static #validateField(field, fieldValue, list) {
 		let responseList;
 
-		if(fieldValue === 'cpf') {
+		if(field === 'cpf') {
 			responseList = list.map(client => client.cpf !== fieldValue);
-		}else if(fieldValue === 'email') {
+		}else if(field === 'email') {
 			responseList = list.map(client => client.email !== fieldValue);
 		}else {
 			return [false];
