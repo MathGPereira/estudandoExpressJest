@@ -97,7 +97,7 @@ const clientsSchema = mongoose.Schema(
 				}
 			]
 		},
-		addressId: {
+		address: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'addresses'
 		},
@@ -126,7 +126,7 @@ const clientsSchema = mongoose.Schema(
 			type: Date,
 			default: new Date
 		},
-		updateAt: {
+		updatedAt: {
 			type: Date,
 			default: new Date()
 		}

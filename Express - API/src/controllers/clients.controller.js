@@ -5,19 +5,29 @@ class ClientsController {
 
 	static async listCustomers(req, res, next) {
 		try {
-			const customersList = await clients.find().select({
-				_id: 0, id: 0,
-				password: 0,
-				salt: 0,
-				createdAt: 0,
-				updateAt: 0,
-				addressId: 0, 
-				accountId : 0
-			});
+			const customersList = await clients
+				.find()
+				.select({
+					_id: 0, id: 0,
+					password: 0,
+					salt: 0,
+					createdAt: 0,
+					updatedAt: 0,
+					accountId : 0
+				})
+				.populate('address', 
+					{ 
+						_id: 0, id: 0,
+						createdAt: 0,
+						updatedAt: 0,
+					}
+				)
+				.exec()
+			;
 
 			res.status(200).json(customersList);
 		}catch(error) {
-			next(error)
+			next(error);
 		}
 	}
 
@@ -47,9 +57,12 @@ class ClientsController {
 			}else if(email) {
 				await clients.findOneAndUpdate({ email: email }, req.body, { new: true });
 			}
-			res.status(200).json({ message: 'Successfully updated customer!' });
+
+			if(!req.body.addressId) {
+				res.status(200).json({ message: 'Successfully updated customer!' });
+			}
 		}catch(error) {
-			next(error)
+			next(error);
 		}
 	}
 
@@ -64,7 +77,7 @@ class ClientsController {
 			}
 			res.status(200).json({ message: 'Successfully updated customer!' });
 		}catch(error) {
-			next(error)
+			next(error);
 		}
 	}
 }

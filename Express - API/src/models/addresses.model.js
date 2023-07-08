@@ -15,7 +15,7 @@ const addressesSchema = mongoose.Schema(
 				validator: async value => {
 					const url = `http://www.viacep.com.br/ws/${value}/json/`;
 					const response = await fetch(url);
-					const jsonResponse = response.json();
+					const jsonResponse = await response.json();
 
 					return jsonResponse.erro ? false : jsonResponse.erro;
 				},
