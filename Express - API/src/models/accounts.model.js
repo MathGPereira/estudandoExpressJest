@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import AccountValidator from '../validators/accounts.validator.js';
+import AccountsValidator from '../validators/accounts.validator.js';
 
 const accountsSchema = mongoose.Schema(
     {
@@ -9,13 +9,13 @@ const accountsSchema = mongoose.Schema(
         accountNumber: {
             type: String,
             trim: true,
-            required: [ture, 'The account number is required!'],
+            required: [true, 'The account number is required!'],
             minlength: [4, 'Account number must be at least 4 digits!'],
             maxlength: [11, 'Account number must be a maximum of 4 digits!'],
             validate: [
                 {
                     validator: async value => {
-                        const isItUniqueField = await AccountValidator.validateUniqueness('accountNumber', value, 'accounts');
+                        const isItUniqueField = await AccountsValidator.validateUniqueness('accountNumber', value, 'accounts');
 
 						return isItUniqueField;
                     },
@@ -24,7 +24,7 @@ const accountsSchema = mongoose.Schema(
                 {
                     validator: value => {
 						const regex = /^\d{9}[A-Za-z]?$/gm;
-						const isItValidRegex = AccountValidator.regexValidator(regex, value);
+						const isItValidRegex = AccountsValidator.regexValidator(regex, value);
 
 						return isItValidRegex;
 					},
@@ -41,7 +41,7 @@ const accountsSchema = mongoose.Schema(
             validate: {
                 validator: value => {
                     const regex = /^\d{3,4}$/gm;
-						const isItValidRegex = AccountValidator.regexValidator(regex, value);
+						const isItValidRegex = AccountsValidator.regexValidator(regex, value);
 
 						return isItValidRegex;
                 },

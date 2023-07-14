@@ -15,7 +15,7 @@ const clientsSchema = mongoose.Schema(
 				validator: value => {
 					const regex = /[!@#$$%&*()<>|\/\\?;.]/gm;
 					const isItValidRegex = ClientsValidator.regexValidator(regex, value);
-
+					
 					return !isItValidRegex;
 				},
 				message: 'The name cannot have special characters!'
@@ -124,11 +124,11 @@ const clientsSchema = mongoose.Schema(
 		},
 		createdAt: {
 			type: Date,
-			default: new Date
+			default: Date
 		},
 		updatedAt: {
 			type: Date,
-			default: new Date()
+			default: Date()
 		}
 	},
 	{ versionKey: false }

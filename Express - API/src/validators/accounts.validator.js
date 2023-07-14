@@ -1,10 +1,5 @@
-import Validator from "./validator.js";
+import Validator from './validator.js';
 
-class AccountValidator extends Validator {
+class AccountsValidator { }
 
-    constructor() {
-        super();
-    }
-}
-
-export default AccountValidator;
+export default AccountsValidator;

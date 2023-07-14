@@ -11,7 +11,7 @@ class Validator {
 
 	static regexValidator(regex, valueToBeTested) {
 		const isItValid = regex.test(valueToBeTested);
-
+		
 		return isItValid;
 	}
 
@@ -42,9 +42,15 @@ class Validator {
 
 	static async #verifySchema(schema) {
 		if(schema === 'clients') {
-			return await clients.find().select(Validator.#viewOptions('clients'));
+			return await clients
+				.find()
+				.select(Validator.#viewOptions('clients'))
+			;
 		}else if(schema === 'accounts') {
-			return await accounts.find().select(Validator.#viewOptions('accounts'));
+			return await accounts
+				.find()
+				.select(Validator.#viewOptions('accounts'))
+			;
 		}
 	}
 

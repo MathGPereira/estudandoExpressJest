@@ -1,6 +1,7 @@
 import express from 'express';
 import clients from './clients.route.js';
 import addresses from './addresses.route.js';
+import accounts from './accounts.route.js';
 
 const routes = app => {
 	app.route('/').get((req, res) => {
@@ -10,7 +11,8 @@ const routes = app => {
 	app.use(
 		express.json(),
 		clients,
-		addresses
+		addresses,
+		accounts
 	);
 };
 
