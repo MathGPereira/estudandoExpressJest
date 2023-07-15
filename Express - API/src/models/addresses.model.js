@@ -64,7 +64,7 @@ const addressesSchema = mongoose.Schema(
 		}	,
 		createdAt: {
 			type: Date,
-			default: new Date()
+			default: new Date
 		},
 		updatedAt: {
 			type: Date,

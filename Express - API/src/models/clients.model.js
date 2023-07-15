@@ -124,11 +124,11 @@ const clientsSchema = mongoose.Schema(
 		},
 		createdAt: {
 			type: Date,
-			default: Date
+			default: new Date
 		},
 		updatedAt: {
 			type: Date,
-			default: Date()
+			default: new Date()
 		}
 	},
 	{ versionKey: false }

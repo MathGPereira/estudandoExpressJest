@@ -7,14 +7,16 @@ class ClientsController {
 		try {
 			const customersList = await clients
 				.find()
-				.select({
-					_id: 0, id: 0,
-					password: 0,
-					salt: 0,
-					createdAt: 0,
-					updatedAt: 0,
-					accountId : 0
-				})
+				.select(
+					{
+						_id: 0, id: 0,
+						password: 0,
+						salt: 0,
+						createdAt: 0,
+						updatedAt: 0,
+						accountId : 0
+					}
+				)
 				.populate('address', 
 					{ 
 						_id: 0, id: 0,
