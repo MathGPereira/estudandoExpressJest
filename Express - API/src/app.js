@@ -1,5 +1,5 @@
 import express from 'express';
-import routes from './routes/index.js';
+import routes from './routes/index.route.js';
 import mongo from './config/mongo.config.js';
 import errorHandlerMiddleware from './middlewares/error-handler.middleware.js';
 import notFoundMiddleware from './middlewares/not-found.middleware.js';

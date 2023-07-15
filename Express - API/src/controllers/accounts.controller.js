@@ -1,4 +1,4 @@
-import accounts from "../models/accounts.model.js";
+import { accounts } from "../models/index.model.js";
 
 class AccountsController {
 

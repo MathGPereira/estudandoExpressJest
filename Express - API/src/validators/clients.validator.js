@@ -1,4 +1,4 @@
-import Validator from './validator.js';
+import { Validator } from './index.validator.js';
 
 class ClientsValidator extends Validator {
 

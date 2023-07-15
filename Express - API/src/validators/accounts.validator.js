@@ -1,5 +1,5 @@
-import Validator from './validator.js';
+import { Validator } from "./index.validator.js";
 
-class AccountsValidator { }
+class AccountsValidator extends Validator { }
 
 export default AccountsValidator;

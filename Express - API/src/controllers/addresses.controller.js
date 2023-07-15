@@ -1,5 +1,4 @@
-import addresses from '../models/addresses.model.js';
-import clients from '../models/clients.model.js';
+import { addresses, clients } from '../models/index.model.js';
 import ClientsController from '../controllers/clients.controller.js';
 
 class AddressesController {
