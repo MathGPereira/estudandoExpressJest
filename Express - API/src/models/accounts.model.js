@@ -16,7 +16,7 @@ const accountsSchema = mongoose.Schema(
             {
                validator: async value => {
                   const isItUniqueField = await AccountsValidator.validateUniqueness('accountNumber', value, 'accounts');
-               return isItUniqueField;
+                  return isItUniqueField;
                },
                message: 'Generated account number already exists!'
             },
@@ -24,7 +24,7 @@ const accountsSchema = mongoose.Schema(
                validator: value => {
                   const regex = /^\d{4,11}[A-Za-z]?$/gm;
                   const isItValidRegex = AccountsValidator.regexValidator(regex, value);
-
+                  
                   return isItValidRegex;
                },
                message: 'The account number {VALUE} is invalid!'
@@ -41,7 +41,7 @@ const accountsSchema = mongoose.Schema(
             validator: value => {
                const regex = /^\d{3,4}$/gm;
                const isItValidRegex = AccountsValidator.regexValidator(regex, value);
-
+               
                return isItValidRegex;
             },
             message: 'The {PATH} {VALUE} is invalid!'
@@ -59,7 +59,7 @@ const accountsSchema = mongoose.Schema(
             validator: value => {
                const regex = /^(\d{0,})[,.]?(\d{0,})$/gm;
                const isItValidRegex = AccountsValidator.regexValidator(regex, value);
-
+               
                return isItValidRegex;
             }
          }
@@ -74,7 +74,8 @@ const accountsSchema = mongoose.Schema(
       }
    },
    { versionKey: false }
-);
-const accounts = mongoose.model('accounts', accountsSchema);
-
-export default accounts;
+   );
+   const accounts = mongoose.model('accounts', accountsSchema);
+   
+   export default accounts;
+   

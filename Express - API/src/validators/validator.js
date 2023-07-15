@@ -46,10 +46,6 @@ class Validator {
 				.select(Validator.#viewOptions('clients'))
 			;
 		}else if(schema === 'accounts') {
-			console.log(await accounts
-				.find()
-				.select(Validator.#viewOptions('accounts'))
-			)
 			return await accounts
 				.find()
 				.select(Validator.#viewOptions('accounts'))
