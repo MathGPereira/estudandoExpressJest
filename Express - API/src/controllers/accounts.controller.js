@@ -21,51 +21,43 @@ class AccountsController {
       }
     }
     
-    static async createAccount(req, res, next) {
-      try {
-        const account = new accounts(req.body);
+  static async createAccount(req, res, next) {
+    try {
+      const account = new accounts(req.body);
 
-        req.body = { account: account._id };
-        
-        await account.save();
-        ClientsController.updateCustomer(req, res, next);
+      req.body = { account: account._id };
+      
+      await account.save();
+      ClientsController.updateCustomer(req, res, next);
 
-        res.status(201).json({ message: 'Successfully account registered!' });
-      } catch (error) {
-        next(error);
-      }
-    }
-
-    static async updateAccount(req, res, next) {
-      let client;
-      let accountId;
-  
-      try {
-        const { cpf, email } = req.headers;
-  
-        if(cpf) {
-          client = await clients.findOne({ cpf: cpf });
-        }else if(email) {
-          client = await clients.findOne({ email: email });
-        }
-  
-        accountId = client.account._id;
-        await accounts.findByIdAndUpdate(accountId, req.body, { new: true });
-        
-        res.status(201).json({ message: 'Account updated successfully!' });
-      }catch(error) {
-        next(error);
-      }
-    }
-    
-    static async updateBalance(req, res, next) {
-      try {
-        
-      }catch(error) {
-        next(error);
-      }
+      res.status(201).json({ message: 'Successfully account registered!' });
+    } catch (error) {
+      next(error);
     }
   }
+
+  static async updateAccount(req, res, next) {
+    let client;
+    let accountId;
+
+    try {
+      const { cpf, email } = req.headers;
+
+      if(cpf) {
+        client = await clients.findOne({ cpf: cpf });
+      }else if(email) {
+        client = await clients.findOne({ email: email });
+      }
+
+      accountId = client.account._id;
+      await accounts.findByIdAndUpdate(accountId, req.body, { new: true });
+      
+      res.status(201).json({ message: 'Account updated successfully!' });
+    }catch(error) {
+      next(error);
+    }
+  }
+}
   
-  export default AccountsController;
+export default AccountsController;
   
