@@ -60,7 +60,7 @@ class ClientsController {
 				await clients.findOneAndUpdate({ email: email }, req.body, { new: true });
 			}
 
-			if(!req.body.addressId) {
+			if(!req.body.addressId || !req.body.accountId) {
 				res.status(200).json({ message: 'Successfully updated customer!' });
 			}
 		}catch(error) {

@@ -6,6 +6,7 @@ const router = express.Router();
 router
     .get('/accounts', AccountsController.listAccounts)
     .post('/accounts', AccountsController.createAccount)
+    .put('/accounts', AccountsController.updateAccount)
 ;
 
 export default router;

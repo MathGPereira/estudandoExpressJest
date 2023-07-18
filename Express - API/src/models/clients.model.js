@@ -101,7 +101,7 @@ const clientsSchema = mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'addresses'
 		},
-		accountId: {
+		account: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'accounts'
 		},
