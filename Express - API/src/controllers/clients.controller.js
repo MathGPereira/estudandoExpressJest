@@ -53,6 +53,7 @@ class ClientsController {
 	static async updateCustomer(req, res, next) {
 		try {
 			const { cpf, email } = req.headers;
+			req.body.updatedAt = new Date();
 
 			if(cpf) {
 				await clients.findOneAndUpdate({ cpf: cpf }, req.body, { new: true });

@@ -50,6 +50,8 @@ class AccountsController {
       }
 
       accountId = client.account._id;
+      req.body.updatedAt = new Date();
+
       await accounts.findByIdAndUpdate(accountId, req.body, { new: true });
       
       res.status(201).json({ message: 'Account updated successfully!' });

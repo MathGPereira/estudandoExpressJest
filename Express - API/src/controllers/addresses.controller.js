@@ -41,6 +41,8 @@ class AddressesController {
 
 		try {
 			const { cpf, email } = req.headers;
+			
+			req.body.updatedAt = new Date();
 
 			if(cpf) {
 				client = await clients.findOne({ cpf: cpf });

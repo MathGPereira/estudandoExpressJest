@@ -70,7 +70,7 @@ const accountsSchema = mongoose.Schema(
       },
       updatedAt: {
          type: Date,
-         default: new Date()
+         default: new Date
       }
    },
    { versionKey: false }
